@@ -1,0 +1,18 @@
+
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\tModLoader.targets" />
+  <PropertyGroup>
+    <AssemblyName>CalValWiki</AssemblyName>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="CalamityMod">
+      <HintPath>CalamityMod.dll</HintPath>
+    </Reference>
+    <Reference Include="CalValEX">
+      <HintPath>..\CalValEX\obj\Debug\net8.0\CalValEX.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

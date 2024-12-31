@@ -1,0 +1,4 @@
+displayName = Calval Wiki Page Maker
+author = KuH
+modReferences = CalValEX, CalamityMod, CalRemix
+version = 0.1
