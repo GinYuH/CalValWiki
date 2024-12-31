@@ -146,8 +146,8 @@ namespace CalValWiki
                 "Generates a table of wing stats",
                 () => WikiPlayer.ExportPage(WikiPlayer.GenerateWingStats));
 
-            new ButtonType("Generate Vanity Accessory Table", ItemID.DiamondRing,
-                "Generates a table of vanity accessories",
+            new ButtonType("Generate Accessory Table", ItemID.DiamondRing,
+                "Generates a table of accessories",
                 () => WikiPlayer.ExportPage(WikiPlayer.GenerateVanityAccessories));
 
             new ButtonType("Generate Vanity Piece Table", ItemID.SunMask,
@@ -172,7 +172,15 @@ namespace CalValWiki
 
             new ButtonType("Export all block previews", ItemID.BlueBrick,
                 "Exports 3x3 previews for every block. Does not account for custom framing.",
-                () => WikiPlayer.ExportPage(WikiPlayer.GenerateItemsPageLikeTheBIGOne));
+                WikiPlayer.GenerateBlockSprites);
+
+            new ButtonType("Export all wall previews", ItemID.BlueBrick,
+                "Exports 3x3 previews for every wall. Does not account for custom framing.",
+                WikiPlayer.GenerateWallSprites);
+
+            new ButtonType("Export all furniture previews", ItemID.Bookcase,
+                "Exports previews for the first frame of every furniture.\n(tiles that take up more than 1 block of space)\n Does not account for custom framing.",
+                WikiPlayer.GenerateFurnitureSprites);
 
             new ButtonType("Generate recipe subpage", ItemID.TinkerersWorkshop,
                 "Generates a page with every recipe that uses the current held item as the station" +

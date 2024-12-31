@@ -50,6 +50,7 @@ using CalValEX.Tiles.AstralBlocks;
 using Microsoft.CodeAnalysis.CSharp;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.DraedonStructures;
+using CalamityMod.Items.Potions.Alcohol;
 
 namespace CalValWiki
 {
@@ -1351,6 +1352,11 @@ namespace CalValWiki
             return "";
         }
 
+        /// <summary>
+        /// Gets dimensions for a tile and formats them for tile infoboxes
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public static string GetTileDimensions(Item item)
         {
             if (item.createTile <= 0)
@@ -1376,6 +1382,10 @@ namespace CalValWiki
             return ret;
         }
 
+        /// <summary>
+        /// Generates a list of equips for a master template
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GenerateEquipsTemplate()
         {
             Mod CalVal = CurMod;
@@ -1490,6 +1500,10 @@ namespace CalValWiki
             return itemsToAdd;
         }
 
+        /// <summary>
+        /// Generates a wing page table
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateWingStats()
         {
             Mod Calval = CurMod;
@@ -1545,6 +1559,10 @@ namespace CalValWiki
             return ret;
         }
 
+        /// <summary>
+        /// Generates an accessory page table
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateVanityAccessories()
         {
             string ret = "";
@@ -1597,6 +1615,11 @@ namespace CalValWiki
             return ret;
         }
 
+        /// <summary>
+        /// Gets the equip slot of a given item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public static string GetSlot(Item item)
         {
             if (item.backSlot > 0)
@@ -1612,12 +1635,28 @@ namespace CalValWiki
             return "";
         }
 
+        /// <summary>
+        /// Removes coordinate spacing from tiles
+        /// </summary>
+        /// <param name="exportColors"></param>
+        /// <param name="baseColors"></param>
+        /// <param name="curIDX"></param>
+        /// <param name="curIDY"></param>
+        /// <param name="expOffX"></param>
+        /// <param name="expOffY"></param>
+        /// <param name="impOffX"></param>
+        /// <param name="impOffY"></param>
+        /// <returns></returns>
         public static Color[,] PopulateColor(Color[,] exportColors, Color[,] baseColors, int curIDX, int curIDY, int expOffX, int expOffY, int impOffX, int impOffY)
         {
             exportColors[curIDX + expOffX, curIDY + expOffY] = baseColors[impOffX + curIDX, impOffY + curIDY];
             return exportColors;
         }
 
+        /// <summary>
+        /// Generates a page for every misc item
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateConsumablesPage()
         {
             string ret = "";
@@ -1668,6 +1707,10 @@ namespace CalValWiki
             return ret;
         }
 
+        /// <summary>
+        /// Generates a table for individual equip pieces
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateVanityStandalone()
         {
             string ret = "";
@@ -1721,6 +1764,11 @@ namespace CalValWiki
             return ret;
         }
 
+        /// <summary>
+        /// Returns what armor slot the item falls into. Supports robes.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public static string GetArmorSlot(Item i)
         {
             if (i.headSlot > 0)
@@ -1734,6 +1782,10 @@ namespace CalValWiki
             return "";
         }
 
+        /// <summary>
+        /// Generate a table of vanity sets from the Calamity's Vanities mod
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateVanitySets()
         {
             string ret = "";
@@ -1787,6 +1839,10 @@ namespace CalValWiki
             return ret;
         }
 
+        /// <summary>
+        /// Generates a table of vanity transformations from the Calamity's Vanities mod
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateTransformations()
         {
             string ret = "";
@@ -1838,6 +1894,10 @@ namespace CalValWiki
             return ret;
         }
 
+        /// <summary>
+        /// Generates the Items page for a given mod, listing every single item
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateItemsPageLikeTheBIGOne()
         {
             string ret = "";
@@ -1860,6 +1920,10 @@ namespace CalValWiki
             return ret;
         }
 
+        /// <summary>
+        /// Generates a table of blocks for a blocks page
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateBlocks()
         {
             string ret = "";
@@ -1912,6 +1976,10 @@ namespace CalValWiki
             return ret;
         }
 
+        /// <summary>
+        /// Lists out every block, furniture, and wall in a mod
+        /// </summary>
+        /// <returns></returns>
         public static List<string> GenerateTilesTemplate()
         {
             Mod CalVal = CurMod;
@@ -1957,6 +2025,9 @@ namespace CalValWiki
             return blocksToAdd;
         }
 
+        /// <summary>
+        /// Exports 3x3 wiki previews for every single block
+        /// </summary>
         public static void GenerateBlockSprites()
         {
             foreach (var item in ContentSamples.ItemsByType)
@@ -2010,7 +2081,89 @@ namespace CalValWiki
                 }
                 exporter.SetData(result);
 
-                string path = $@"{exportPath}\" + item.Value.Name + " (placed) (" + CurMod.DisplayName + ").png";
+                string path = $@"{exportPath}\" + item.Value.Name + " (placed) (" + CurMod.Name + ").png";
+                using (Stream stream = File.OpenWrite(path))
+                {
+                    exporter.SaveAsPng(stream, exporter.Width, exporter.Height);
+                }
+            }
+        }
+        /// <summary>
+        /// Removes coordinate spacing from walls
+        /// </summary>
+        /// <param name="exportColors"></param>
+        /// <param name="baseColors"></param>
+        /// <param name="expX"></param>
+        /// <param name="expY"></param>
+        /// <param name="startX"></param>
+        /// <param name="startY"></param>
+        /// <param name="endX"></param>
+        /// <param name="endY"></param>
+        /// <returns></returns>
+        public static Color[,] PopulateWallColor(Color[,] exportColors, Color[,] baseColors, int expX, int expY, int startX, int startY, int endX, int endY)
+        {
+            for (int i = 0; i <= (endX - startX); i++)
+            {
+                for (int j = 0; j <= (endY - startY); j++)
+                {
+                    exportColors[expX + i, expY + j] = baseColors[startX + i, startY + j];
+                }
+            }
+            return exportColors;
+        }
+
+        /// <summary>
+        /// Exports 3x3 wiki previews for every single wall
+        /// </summary>
+        public static void GenerateWallSprites()
+        {
+            foreach (var item in ContentSamples.ItemsByType)
+            {
+                if (item.Value.ModItem == null) continue;
+                if (item.Value.ModItem.Mod != CurMod) continue;
+                if (item.Value.createWall <= 0)
+                    continue;
+
+                Texture2D baseTexture = TextureAssets.Wall[item.Value.createWall].Value;
+                int width = 64;
+                int height = 64;
+
+                Texture2D exporter = new Texture2D(Main.instance.GraphicsDevice, width, height);
+
+                Color[] baseColors = new Color[baseTexture.Width * baseTexture.Height];
+                baseTexture.GetData(baseColors);
+
+                Color[] exportColors = new Color[exporter.Width * exporter.Height];
+                exporter.GetData(exportColors);
+                Color[] result = new Color[exportColors.Length];
+
+                Color[,] baseArrayColors = baseTexture.GetColorsFromTexture();
+                Color[,] finalArray = new Color[64, 64];
+
+                
+                finalArray = PopulateWallColor(finalArray, baseArrayColors, 0, 0, 0, 108, 23, 131); // var 1
+                finalArray = PopulateWallColor(finalArray, baseArrayColors, 24, 0, 116, 0, 131, 23); // var 2
+                finalArray = PopulateWallColor(finalArray, baseArrayColors, 40, 0, 44, 108, 67, 131); // var 3
+
+                finalArray = PopulateWallColor(finalArray, baseArrayColors, 0, 23, 0, 44, 23, 59); // var 2
+                finalArray = PopulateWallColor(finalArray, baseArrayColors, 24, 23, 80, 44, 95, 59); // var 3
+                finalArray = PopulateWallColor(finalArray, baseArrayColors, 40, 23, 152, 80, 175, 95); // var 3
+
+                finalArray = PopulateWallColor(finalArray, baseArrayColors, 0, 39, 144, 152, 167, 175); // var 1
+                finalArray = PopulateWallColor(finalArray, baseArrayColors, 24, 39, 44, 80, 59, 103); // var 2
+                finalArray = PopulateWallColor(finalArray, baseArrayColors, 40, 39, 116, 152, 139, 175); // var 2
+                    
+
+                for (int i = 0; i < 64; i++)
+                {
+                    for (int j = 0; j < 64; j++)
+                    {
+                        result[i + j * 64] = finalArray[i, j];
+                    }
+                }
+                exporter.SetData(result);
+
+                string path = $@"{exportPath}\" + item.Value.Name + " (placed) (" + CurMod.Name + ").png";
                 using (Stream stream = File.OpenWrite(path))
                 {
                     exporter.SaveAsPng(stream, exporter.Width, exporter.Height);
@@ -2018,6 +2171,78 @@ namespace CalValWiki
             }
         }
 
+        /// <summary>
+        /// Exports images for every single furniture (non block tile)
+        /// </summary>
+        public static void GenerateFurnitureSprites()
+        {
+            foreach (var item in ContentSamples.ItemsByType)
+            {
+                if (item.Value.ModItem == null) continue;
+                if (item.Value.ModItem.Mod != ModLoader.GetMod("CalRemix")) continue;
+                if (item.Value.createTile <= 0)
+                    continue;
+                if (!Main.tileFrameImportant[item.Value.createTile]) continue;
+
+                TileObjectData tileData = TileObjectData.GetTileData(item.Value.createTile, 0);
+
+                Texture2D baseTexture = TextureAssets.Tile[item.Value.createTile].Value;
+
+                int width = tileData.Width * 16;
+                int height = tileData.Height * 16;
+
+                Texture2D exporter = new Texture2D(Main.instance.GraphicsDevice, width, height);
+
+                Color[] baseColors = new Color[baseTexture.Width * baseTexture.Height];
+                baseTexture.GetData(baseColors);
+
+                Color[] exportColors = new Color[exporter.Width * exporter.Height];
+                exporter.GetData(exportColors);
+                Color[] result = new Color[exportColors.Length];
+
+                Color[,] baseArrayColors = baseTexture.GetColorsFromTexture();
+                Color[,] finalArray = new Color[width, height];
+
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        int shiftX = 0;
+                        int shiftY = 0;
+                        if (i >= 16)
+                            shiftX = 2 * (int)(i / 16);
+                        if (j >= 16)
+                            shiftY = 2 * (int)(j / 16);
+
+                        if ((i + shiftX) < baseArrayColors.GetLength(0) && j + shiftY < baseArrayColors.GetLength(1))
+                            finalArray[i, j] = baseArrayColors[i + shiftX, j + shiftY];
+                    }
+                }
+
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        result[i + j * width] = finalArray[i, j];
+                    }
+                }
+                exporter.SetData(result);
+
+                string path = $@"{exportPath}\" + item.Value.ModItem.Name + " (placed) (" + CurMod.Name + ").png";
+                using (Stream stream = File.OpenWrite(path))
+                {
+                    exporter.SaveAsPng(stream, exporter.Width, exporter.Height);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generates a recipe page for the player's current held item if it's a crafting station.
+        /// If an Ebonstone block is held, it generates Demon Altar recipes.
+        /// If no valid block is held, it generates all "By Hand" recipes
+        /// </summary>
+        /// <param name="tileType"></param>
+        /// <returns></returns>
         public static string GenerateAllRecipes(int tileType)
         {
             string ret = "";
@@ -2051,6 +2276,11 @@ namespace CalValWiki
 
         }
 
+        /// <summary>
+        /// Gets the name of a tile 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static string GetTileItemName(int type)
         {
             if (type == TileID.DemonAltar)
@@ -2067,11 +2297,20 @@ namespace CalValWiki
             return "";
         }
 
+        /// <summary>
+        /// Formats an item's name to mod wiki standards
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public static string GetTaggedItemName(Item i)
         {
             return i.ModItem == null || i.ModItem.Mod == ModLoader.GetMod("CalamityMod") ? i.Name : "#" + i.Name;
         }
 
+        /// <summary>
+        /// Generates a list of every NPC
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateNPCMasterTemplate()
         {
             string ret = "";
